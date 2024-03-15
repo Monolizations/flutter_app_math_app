@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mathforkids/app/screens/homescreen.dart';
 import 'package:mathforkids/classes/sharedprefs.dart';
 
-
 class Greetings extends StatefulWidget {
   const Greetings({super.key});
 
@@ -10,17 +9,16 @@ class Greetings extends StatefulWidget {
   State<Greetings> createState() => _GreetingsState();
 }
 
-
-
 class _GreetingsState extends State<Greetings> {
-  SharedPreferencesManager _sharedPreferencesManager = SharedPreferencesManager();
+  SharedPreferencesManager _sharedPreferencesManager =
+      SharedPreferencesManager();
 
   TextEditingController nem = TextEditingController();
-  
+
   @override
   Widget build(BuildContext context) {
     double screenH = MediaQuery.of(context).size.height;
-    return  Scaffold(
+    return Scaffold(
       body: Center(
         child: Column(
           children: [
@@ -29,22 +27,33 @@ class _GreetingsState extends State<Greetings> {
               child: Stack(
                 children: [
                   Positioned(
-                    left: 30,
-                    top: 70,
-                    child: Image.asset("assets/images/bubble.png", width: screenH * 0.2,)
-                  ),
+                      left: 30,
+                      top: 70,
+                      child: Image.asset(
+                        "assets/images/bubble.png",
+                        width: screenH * 0.397,
+                      )),
                   Positioned(
-                    right: 30,
-                    top: 60,
-                    child: Image.asset("assets/images/nina.png", width: screenH * 0.173)
-                  ),
+                      right: 30,
+                      top: 60,
+                      child: Image.asset("assets/images/nina.png",
+                          width: screenH * 0.173)),
                 ],
               ),
             ),
             Column(
               children: [
-                Text("Your Name:", textAlign: TextAlign.start, style: TextStyle(fontFamily:'IriGrov',fontWeight: FontWeight.bold, fontSize: 28),),
-                SizedBox(height: 20,),
+                Text(
+                  "Your Name:",
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                      fontFamily: 'IriGrov',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 28),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: TextField(
@@ -62,42 +71,50 @@ class _GreetingsState extends State<Greetings> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20,),
-                ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xff00ff57), // Background color
-                  textStyle: const TextStyle(fontSize: 25, fontFamily: "IriGrov"),
-                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8), // Rounded corners
-                  ),
+                SizedBox(
+                  height: 20,
                 ),
-                onPressed: () {
-                  if (nem.text.isNotEmpty) {
-                    _sharedPreferencesManager.setPlayerName(nem.text);
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
-                  } else {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text("Error"),
-                          content: Text("Enter a name first"),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text('OK'),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  }
-                },
-                child: const Text('Start'),
-              ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        const Color(0xff00ff57), // Background color
+                    textStyle:
+                        const TextStyle(fontSize: 25, fontFamily: "IriGrov"),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8), // Rounded corners
+                    ),
+                  ),
+                  onPressed: () {
+                    if (nem.text.isNotEmpty) {
+                      _sharedPreferencesManager.setPlayerName(nem.text);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomeScreen()));
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Error"),
+                            content: Text("Enter a name first"),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('OK'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
+                  },
+                  child: const Text('Start'),
+                ),
               ],
             )
           ],

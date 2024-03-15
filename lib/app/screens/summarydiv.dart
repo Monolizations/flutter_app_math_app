@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'division.dart';
 import '../../classes/sharedprefs.dart';
 import 'dart:math';
+import 'homescreen.dart';
 
 class DivisionCalced extends StatefulWidget {
   const DivisionCalced({Key? key}) : super(key: key);
@@ -11,7 +12,8 @@ class DivisionCalced extends StatefulWidget {
 }
 
 class _DivisionCalcedState extends State<DivisionCalced> {
-  SharedPreferencesManager _sharedPreferencesManager = SharedPreferencesManager();
+  SharedPreferencesManager _sharedPreferencesManager =
+      SharedPreferencesManager();
   int correctAnswer = 0; // Changed variable name
 
   @override
@@ -23,8 +25,7 @@ class _DivisionCalcedState extends State<DivisionCalced> {
   // Load the correct answers count from SharedPreferences
   void _loadcorrectAnswer() async {
     correctAnswer = await _sharedPreferencesManager.getCorrectAnswers();
-    setState(() {
-    });
+    setState(() {});
   }
 
   final List<String> images = [
@@ -49,11 +50,20 @@ class _DivisionCalcedState extends State<DivisionCalced> {
   @override
   Widget build(BuildContext context) {
     final String randomImage = images[Random().nextInt(images.length)];
-    final String message = _generateMessage(correctAnswer); // Changed variable name
+    final String message =
+        _generateMessage(correctAnswer); // Changed variable name
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(icon: const Icon(Icons.home_filled), onPressed: () {}),
-        title: const Text("Results",style: TextStyle(fontFamily: 'IriGrov')),
+        leading: IconButton(
+            icon: const Icon(Icons.home_filled),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HomeScreen(),
+                  ));
+            }),
+        title: const Text("Results", style: TextStyle(fontFamily: 'IriGrov')),
         centerTitle: true,
         backgroundColor: const Color(0xff9888ff),
       ),
@@ -102,8 +112,8 @@ class _DivisionCalcedState extends State<DivisionCalced> {
                       ));
                 },
                 style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(const Color(0xff9888ff))),
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        const Color(0xff9888ff))),
                 child: const Text(
                   "Retry",
                   style: TextStyle(fontFamily: "IriGrov", fontSize: 28),

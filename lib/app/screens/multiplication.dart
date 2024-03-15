@@ -5,7 +5,7 @@ import '../clippath/customclip2.dart';
 import '../widgets/widgets.dart';
 import 'correct.dart';
 import 'wrong.dart';
-import 'summarymul.dart'; 
+import 'summarymul.dart';
 import '../../classes/sharedprefs.dart';
 
 class Multiplication extends StatefulWidget {
@@ -20,9 +20,10 @@ class _MultiplicationState extends State<Multiplication> {
   late int y;
   late int z;
   int progress = 1;
-   int correctAnswer = 0;
+  int correctAnswer = 0;
 
-   SharedPreferencesManager _sharedPreferencesManager = SharedPreferencesManager();
+  SharedPreferencesManager _sharedPreferencesManager =
+      SharedPreferencesManager();
 
   TextEditingController answerField = TextEditingController();
 
@@ -35,8 +36,8 @@ class _MultiplicationState extends State<Multiplication> {
     Numbers num = Numbers();
 
     x = num.generateNumber(10);
-    y = num.generateNumberforSubtraction(0,x);
-    z = x * y; 
+    y = num.generateNumberforSubtraction(0, x);
+    z = x * y;
   }
 
   // Load the correct answers count from SharedPreferences
@@ -44,8 +45,6 @@ class _MultiplicationState extends State<Multiplication> {
     correctAnswer = await _sharedPreferencesManager.getCorrectAnswers();
     setState(() {});
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +82,9 @@ class _MultiplicationState extends State<Multiplication> {
                       color: Colors.black,
                       width: 1,
                     ),
-                    color: index < progress ? const Color(0xff57ebff) : Colors.white,
+                    color: index < progress
+                        ? const Color(0xff57ebff)
+                        : Colors.white,
                     borderRadius: BorderRadius.circular(5),
                   ),
                 ),
@@ -97,7 +98,7 @@ class _MultiplicationState extends State<Multiplication> {
                   width: 150,
                   height: 80,
                   child: Text(
-                    "$x x $y = ", 
+                    "$x x $y = ",
                     style: TextStyle(fontSize: 40, fontFamily: 'IriGrov'),
                     textAlign: TextAlign.center,
                   ),
@@ -158,19 +159,21 @@ class _MultiplicationState extends State<Multiplication> {
                         Padding(
                           padding: const EdgeInsets.all(2),
                           child: NumButton(
-                              text: "1",
-                              onPressed: () {
-                                answerField.text += '1';
-                              },c: const Color(0xff57ebff),),
+                            text: "1",
+                            onPressed: () {
+                              answerField.text += '1';
+                            },
+                            c: const Color(0xff57ebff),
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(2.0),
                           child: NumButton(
-                            text: "2",
-                            onPressed: () {
-                              answerField.text += '2';
-                            },c: const Color(0xff57ebff)
-                          ),
+                              text: "2",
+                              onPressed: () {
+                                answerField.text += '2';
+                              },
+                              c: const Color(0xff57ebff)),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(2.0),
@@ -178,7 +181,8 @@ class _MultiplicationState extends State<Multiplication> {
                             text: "3",
                             onPressed: () {
                               answerField.text += '3';
-                            },c: const Color(0xff57ebff),
+                            },
+                            c: const Color(0xff57ebff),
                           ),
                         ),
                       ],
@@ -325,58 +329,61 @@ class _MultiplicationState extends State<Multiplication> {
                             Numbers n = Numbers();
                             if (answerField.text.isNotEmpty) {
                               if (int.parse(answerField.text) == z) {
-                                x = n.generateNumberforSubtraction(1,5);
-                                y = n.generateNumberforSubtraction(1,5);
+                                x = n.generateNumberforSubtraction(1, 5);
+                                y = n.generateNumberforSubtraction(1, 5);
 
-                                z = x * y; 
+                                z = x * y;
 
                                 answerField.clear();
                                 progress++;
                                 correctAnswer++;
-                                _sharedPreferencesManager.setCorrectAnswers(correctAnswer); 
+                                _sharedPreferencesManager
+                                    .setCorrectAnswers(correctAnswer);
                                 showPage(context);
                               } else if (answerField.text.isEmpty) {
                                 showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text("OOOPS"),
+                                        content: Text("Enter a number first"),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text('OK'),
+                                          ),
+                                        ],
+                                      );
+                                    });
+                              } else {
+                                x = n.generateNumberforSubtraction(1, 5);
+                                y = n.generateNumberforSubtraction(1, 5);
+
+                                z = x * y;
+
+                                answerField.clear();
+
+                                showPage2(context);
+                                progress++;
+                              }
+                            } else {
+                              showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
-                                      title: Text("OOOPS"),
-                                      content: Text("Enter a number first"),
-                                      actions: <Widget>[
+                                      title: Text("WOOOPPS"),
+                                      content: Text("Enter a number"),
+                                      actions: [
                                         TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: Text('OK'),
-                                        ),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("Ok"))
                                       ],
                                     );
-                                  }
-                                );
-                              }
-                            else {
-                              x = n.generateNumberforSubtraction(1,5);
-                              y = n.generateNumberforSubtraction(1,5);
-
-                              z = x * y; 
-
-                              answerField.clear();
-
-                              showPage2(context);
-                              progress++;
-                            }
-                            } else{
-                              showDialog(context: context, builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text("WOOOPPS"),
-                                  content: Text("Enter a number"),
-                                  actions: [
-                                    TextButton(onPressed: (){
-                                      Navigator.pop(context);
-                                    }, child: Text("Ok"))
-                                  ],
-                                );
-                              });
+                                  });
                             }
                             if (progress == 11) {
                               Future.delayed(
@@ -385,11 +392,13 @@ class _MultiplicationState extends State<Multiplication> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                             MultiplicationCalced()));
+                                            MultiplicationCalced()));
 
                                 Future.delayed(
                                     Duration(seconds: 1, milliseconds: 3), () {
-                                  _sharedPreferencesManager.resetCorrectAnswers();
+                                  _sharedPreferencesManager
+                                      .resetCorrectAnswers();
+                                  correctAnswer = 0;
                                   progress = 1;
                                 });
                               });
@@ -405,5 +414,4 @@ class _MultiplicationState extends State<Multiplication> {
       ),
     );
   }
-
 }

@@ -20,9 +20,10 @@ class _SubtractionState extends State<Subtraction> {
   late int y;
   late int z;
   int progress = 1;
-   int correctAnswer = 0;
+  int correctAnswer = 0;
 
-   SharedPreferencesManager _sharedPreferencesManager = SharedPreferencesManager();
+  SharedPreferencesManager _sharedPreferencesManager =
+      SharedPreferencesManager();
 
   TextEditingController answerField = TextEditingController();
 
@@ -35,8 +36,8 @@ class _SubtractionState extends State<Subtraction> {
     Numbers num = Numbers();
 
     x = num.generateNumber(10);
-    y = num.generateNumberforSubtraction(0,x);
-    z = x - y; 
+    y = num.generateNumberforSubtraction(0, x);
+    z = x - y;
   }
 
   // Load the correct answers count from SharedPreferences
@@ -44,8 +45,6 @@ class _SubtractionState extends State<Subtraction> {
     correctAnswer = await _sharedPreferencesManager.getCorrectAnswers();
     setState(() {});
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +82,9 @@ class _SubtractionState extends State<Subtraction> {
                       color: Colors.black,
                       width: 1,
                     ),
-                    color: index < progress ? const Color(0xffffe074) : Colors.white,
+                    color: index < progress
+                        ? const Color(0xffffe074)
+                        : Colors.white,
                     borderRadius: BorderRadius.circular(5),
                   ),
                 ),
@@ -158,19 +159,21 @@ class _SubtractionState extends State<Subtraction> {
                         Padding(
                           padding: const EdgeInsets.all(2),
                           child: NumButton(
-                              text: "1",
-                              onPressed: () {
-                                answerField.text += '1';
-                              },c: const Color(0xffffe074),),
+                            text: "1",
+                            onPressed: () {
+                              answerField.text += '1';
+                            },
+                            c: const Color(0xffffe074),
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(2.0),
                           child: NumButton(
-                            text: "2",
-                            onPressed: () {
-                              answerField.text += '2';
-                            },c: const Color(0xffffe074)
-                          ),
+                              text: "2",
+                              onPressed: () {
+                                answerField.text += '2';
+                              },
+                              c: const Color(0xffffe074)),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(2.0),
@@ -178,7 +181,8 @@ class _SubtractionState extends State<Subtraction> {
                             text: "3",
                             onPressed: () {
                               answerField.text += '3';
-                            },c: const Color(0xffffe074),
+                            },
+                            c: const Color(0xffffe074),
                           ),
                         ),
                       ],
@@ -325,43 +329,48 @@ class _SubtractionState extends State<Subtraction> {
                             Numbers n = Numbers();
 
                             if (answerField.text.isNotEmpty) {
-                              if (int.parse(answerField.text) == z) { // Check subtraction result
+                              if (int.parse(answerField.text) == z) {
+                                // Check subtraction result
                                 x = n.generateNumber(10);
-                                y = n.generateNumberforSubtraction(1,x);
+                                y = n.generateNumberforSubtraction(1, x);
 
                                 z = x - y; // Generate new subtraction
 
                                 answerField.clear();
                                 progress++;
                                 correctAnswer++;
-                                _sharedPreferencesManager.setCorrectAnswers(correctAnswer); // Save correct answers count
+                                _sharedPreferencesManager.setCorrectAnswers(
+                                    correctAnswer); // Save correct answers count
                                 showPage(context);
-                              }
-                              else {
+                              } else {
                                 x = n.generateNumber(10);
-                                y = n.generateNumberforSubtraction(0,x);
+                                y = n.generateNumberforSubtraction(0, x);
 
-                                z = x - y; 
+                                z = x - y;
 
                                 answerField.clear();
 
                                 showPage2(context);
                                 progress++;
                               }
-                            }else{
-                              showDialog(context: context, builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text("WOOOPPS"),
-                                  content: Text("Enter a number"),
-                                  actions: [
-                                    TextButton(onPressed: (){
-                                      Navigator.pop(context);
-                                    }, child: Text("Ok"))
-                                  ],
-                                );
-                              });
+                            } else {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text("WOOOPPS"),
+                                      content: Text("Enter a number"),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("Ok"))
+                                      ],
+                                    );
+                                  });
                             }
-                            
+
                             if (progress == 11) {
                               Future.delayed(
                                   Duration(seconds: 1, milliseconds: 1), () {
@@ -369,11 +378,13 @@ class _SubtractionState extends State<Subtraction> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                             SubtractionCalced()));
+                                            SubtractionCalced()));
 
                                 Future.delayed(
                                     Duration(seconds: 1, milliseconds: 3), () {
-                                  _sharedPreferencesManager.resetCorrectAnswers();
+                                  _sharedPreferencesManager
+                                      .resetCorrectAnswers();
+                                  correctAnswer = 0;
                                   progress = 1;
                                 });
                               });
@@ -389,5 +400,4 @@ class _SubtractionState extends State<Subtraction> {
       ),
     );
   }
-
 }

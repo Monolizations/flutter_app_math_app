@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'subtraction.dart';
 import '../../classes/sharedprefs.dart';
 import 'dart:math';
+import 'homescreen.dart';
 
 class SubtractionCalced extends StatefulWidget {
   const SubtractionCalced({Key? key}) : super(key: key);
@@ -11,7 +12,8 @@ class SubtractionCalced extends StatefulWidget {
 }
 
 class _SubtractionCalcedState extends State<SubtractionCalced> {
-  SharedPreferencesManager _sharedPreferencesManager = SharedPreferencesManager();
+  SharedPreferencesManager _sharedPreferencesManager =
+      SharedPreferencesManager();
   int correctAnswer = 0; // Changed variable name
 
   @override
@@ -23,8 +25,7 @@ class _SubtractionCalcedState extends State<SubtractionCalced> {
   // Load the correct answers count from SharedPreferences
   void _loadcorrectAnswer() async {
     correctAnswer = await _sharedPreferencesManager.getCorrectAnswers();
-    setState(() {
-    });
+    setState(() {});
   }
 
   final List<String> images = [
@@ -49,11 +50,20 @@ class _SubtractionCalcedState extends State<SubtractionCalced> {
   @override
   Widget build(BuildContext context) {
     final String randomImage = images[Random().nextInt(images.length)];
-    final String message = _generateMessage(correctAnswer); // Changed variable name
+    final String message =
+        _generateMessage(correctAnswer); // Changed variable name
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(icon: const Icon(Icons.home_filled), onPressed: () {}),
-        title: const Text("Results",style: TextStyle(fontFamily: 'IriGrov')),
+        leading: IconButton(
+            icon: const Icon(Icons.home_filled),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HomeScreen(),
+                  ));
+            }),
+        title: const Text("Results", style: TextStyle(fontFamily: 'IriGrov')),
         centerTitle: true,
         backgroundColor: const Color(0xffffe074),
       ),
@@ -102,8 +112,8 @@ class _SubtractionCalcedState extends State<SubtractionCalced> {
                       ));
                 },
                 style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(const Color(0xffffe074))),
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        const Color(0xffffe074))),
                 child: const Text(
                   "Retry",
                   style: TextStyle(fontFamily: "IriGrov", fontSize: 28),

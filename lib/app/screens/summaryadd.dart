@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'addition.dart';
 import '../../classes/sharedprefs.dart';
 import 'dart:math';
+import 'homescreen.dart';
 
 class AdditionCalced extends StatefulWidget {
   const AdditionCalced({Key? key}) : super(key: key);
@@ -11,7 +12,8 @@ class AdditionCalced extends StatefulWidget {
 }
 
 class _AdditionCalcedState extends State<AdditionCalced> {
-  final SharedPreferencesManager _sharedPreferencesManager = SharedPreferencesManager();
+  final SharedPreferencesManager _sharedPreferencesManager =
+      SharedPreferencesManager();
   int correctAnswers = 0;
 
   @override
@@ -23,9 +25,7 @@ class _AdditionCalcedState extends State<AdditionCalced> {
   // Load the correct answers count from SharedPreferences
   void _loadCorrectAnswers() async {
     correctAnswers = await _sharedPreferencesManager.getCorrectAnswers();
-    setState(()  {
-      
-    });
+    setState(() {});
   }
 
   final List<String> images = [
@@ -53,8 +53,19 @@ class _AdditionCalcedState extends State<AdditionCalced> {
     final String message = _generateMessage(correctAnswers);
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(icon: const Icon(Icons.home_filled), onPressed: () {}),
-        title: const Text("Results", style: TextStyle(fontFamily: 'IriGrov'),),
+        leading: IconButton(
+            icon: const Icon(Icons.home_filled),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HomeScreen(),
+                  ));
+            }),
+        title: const Text(
+          "Results",
+          style: TextStyle(fontFamily: 'IriGrov'),
+        ),
         centerTitle: true,
         backgroundColor: const Color(0xffff5151),
       ),
@@ -103,8 +114,8 @@ class _AdditionCalcedState extends State<AdditionCalced> {
                       ));
                 },
                 style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(const Color(0xffff5151))),
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        const Color(0xffff5151))),
                 child: const Text(
                   "Retry",
                   style: TextStyle(fontFamily: "IriGrov", fontSize: 28),

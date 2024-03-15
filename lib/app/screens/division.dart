@@ -5,7 +5,7 @@ import '../clippath/customclip2.dart';
 import '../widgets/widgets.dart';
 import 'correct.dart';
 import 'wrong.dart';
-import 'summarydiv.dart'; 
+import 'summarydiv.dart';
 import '../../classes/sharedprefs.dart';
 
 class Division extends StatefulWidget {
@@ -18,11 +18,12 @@ class Division extends StatefulWidget {
 class _DivisionState extends State<Division> {
   late int x;
   late int y;
-  late int z;
+  int z = 0;
   int progress = 1;
-   int correctAnswer = 0;
+  int correctAnswer = 0;
 
-   SharedPreferencesManager _sharedPreferencesManager = SharedPreferencesManager();
+  SharedPreferencesManager _sharedPreferencesManager =
+      SharedPreferencesManager();
 
   TextEditingController answerField = TextEditingController();
 
@@ -34,9 +35,17 @@ class _DivisionState extends State<Division> {
 
     Numbers num = Numbers();
 
-    x = num.generateNumber(10);
-    y = num.generateNumberforSubtraction(0,x);
-    z = x ~/ y; 
+    x = num.generateNumber(20);
+    y = num.generateNumber(20);
+
+    while (x % y != 0 || z > 20) {
+      // Ensure division results in a whole number and limit the result up to 20
+      y = num.generateNumber(15);
+      if (x % y == 0) {
+        z = x ~/ y;
+        break;
+      }
+    }
   }
 
   // Load the correct answers count from SharedPreferences
@@ -44,8 +53,6 @@ class _DivisionState extends State<Division> {
     correctAnswer = await _sharedPreferencesManager.getCorrectAnswers();
     setState(() {});
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +90,9 @@ class _DivisionState extends State<Division> {
                       color: Colors.black,
                       width: 1,
                     ),
-                    color: index < progress ? const Color(0xff9888ff) : Colors.white,
+                    color: index < progress
+                        ? const Color(0xff9888ff)
+                        : Colors.white,
                     borderRadius: BorderRadius.circular(5),
                   ),
                 ),
@@ -97,7 +106,7 @@ class _DivisionState extends State<Division> {
                   width: 150,
                   height: 80,
                   child: Text(
-                    "$x % $y = ", 
+                    "$x % $y = ",
                     style: TextStyle(fontSize: 40, fontFamily: 'IriGrov'),
                     textAlign: TextAlign.center,
                   ),
@@ -158,19 +167,21 @@ class _DivisionState extends State<Division> {
                         Padding(
                           padding: const EdgeInsets.all(2),
                           child: NumButton(
-                              text: "1",
-                              onPressed: () {
-                                answerField.text += '1';
-                              },c: const Color(0xff9888ff),),
+                            text: "1",
+                            onPressed: () {
+                              answerField.text += '1';
+                            },
+                            c: const Color(0xff9888ff),
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(2.0),
                           child: NumButton(
-                            text: "2",
-                            onPressed: () {
-                              answerField.text += '2';
-                            },c: const Color(0xff9888ff)
-                          ),
+                              text: "2",
+                              onPressed: () {
+                                answerField.text += '2';
+                              },
+                              c: const Color(0xff9888ff)),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(2.0),
@@ -178,7 +189,8 @@ class _DivisionState extends State<Division> {
                             text: "3",
                             onPressed: () {
                               answerField.text += '3';
-                            },c: const Color(0xff9888ff),
+                            },
+                            c: const Color(0xff9888ff),
                           ),
                         ),
                       ],
@@ -325,13 +337,14 @@ class _DivisionState extends State<Division> {
                             Numbers n = Numbers();
                             if (answerField.text.isNotEmpty) {
                               if (int.parse(answerField.text) == z) {
-                                x = n.generateNumber(10);
-                                y = n.generateNumber(5);
+                                x = n.generateNumber(20);
+                                y = n.generateNumber(20);
 
-                                while (x % y != 0) { // Ensure division results in a whole number
+                                while (x % y != 0 || z > 20) {
+                                  // Ensure division results in a whole number and limit the result up to 20
                                   y = n.generateNumber(15);
                                   if (x % y == 0) {
-                                    z = x ~/ y; 
+                                    z = x ~/ y;
                                     break;
                                   }
                                 }
@@ -339,16 +352,18 @@ class _DivisionState extends State<Division> {
                                 answerField.clear();
                                 progress++;
                                 correctAnswer++;
-                                _sharedPreferencesManager.setCorrectAnswers(correctAnswer);
+                                _sharedPreferencesManager
+                                    .setCorrectAnswers(correctAnswer);
                                 showPage(context);
                               } else {
-                                x = n.generateNumber(10);
-                                y = n.generateNumber(8);
+                                x = n.generateNumber(20);
+                                y = n.generateNumber(20);
 
-                                while (x % y != 0) { // Ensure division results in a whole number
+                                while (x % y != 0 || z > 20) {
+                                  // Ensure division results in a whole number and limit the result up to 20
                                   y = n.generateNumber(15);
                                   if (x % y == 0) {
-                                    z = x ~/ y; 
+                                    z = x ~/ y;
                                     break;
                                   }
                                 }
@@ -379,7 +394,8 @@ class _DivisionState extends State<Division> {
                             }
 
                             if (progress == 11) {
-                              Future.delayed(Duration(seconds: 1, milliseconds: 1), () {
+                              Future.delayed(
+                                  Duration(seconds: 1, milliseconds: 1), () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -387,8 +403,11 @@ class _DivisionState extends State<Division> {
                                   ),
                                 );
 
-                                Future.delayed(Duration(seconds: 1, milliseconds: 3), () {
-                                  _sharedPreferencesManager.resetCorrectAnswers();
+                                Future.delayed(
+                                    Duration(seconds: 1, milliseconds: 3), () {
+                                  _sharedPreferencesManager
+                                      .resetCorrectAnswers();
+                                  correctAnswer = 0;
                                   progress = 1;
                                 });
                               });
@@ -404,5 +423,4 @@ class _DivisionState extends State<Division> {
       ),
     );
   }
-
 }

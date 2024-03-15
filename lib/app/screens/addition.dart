@@ -6,7 +6,7 @@ import '../widgets/widgets.dart';
 import 'correct.dart';
 import 'wrong.dart';
 import 'summaryadd.dart';
-import '../../classes/sharedprefs.dart'; 
+import '../../classes/sharedprefs.dart';
 
 class Addition extends StatefulWidget {
   const Addition({Key? key}) : super(key: key);
@@ -16,15 +16,14 @@ class Addition extends StatefulWidget {
 }
 
 class _AdditionState extends State<Addition> {
-
-  SharedPreferencesManager _sharedPreferencesManager = SharedPreferencesManager();
+  SharedPreferencesManager _sharedPreferencesManager =
+      SharedPreferencesManager();
 
   late int x;
   late int y;
   late int z;
   int progress = 1;
   int correctAnswers = 0;
-
 
   TextEditingController answerField = TextEditingController();
 
@@ -37,7 +36,7 @@ class _AdditionState extends State<Addition> {
 
     Numbers num = Numbers();
 
-    x = num.generateNumber(20);
+    x = num.generateNumber(10);
     y = num.generateNumber(20);
     z = x + y;
   }
@@ -159,11 +158,12 @@ class _AdditionState extends State<Addition> {
                         Padding(
                           padding: const EdgeInsets.all(2),
                           child: NumButton(
-                              text: "1",
-                              onPressed: () {
-                                answerField.text += '1';
-                              }, c: Color(0xffff5151),),
-                              
+                            text: "1",
+                            onPressed: () {
+                              answerField.text += '1';
+                            },
+                            c: Color(0xffff5151),
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(2.0),
@@ -171,8 +171,8 @@ class _AdditionState extends State<Addition> {
                             text: "2",
                             onPressed: () {
                               answerField.text += '2';
-                            }, c: Color(0xffff5151),
-                            
+                            },
+                            c: Color(0xffff5151),
                           ),
                         ),
                         Padding(
@@ -196,12 +196,12 @@ class _AdditionState extends State<Addition> {
                         Padding(
                           padding: const EdgeInsets.all(2),
                           child: NumButton(
-                              text: "4",
-                              onPressed: () {
-                                answerField.text += '4';
-                              },
-                              c: Color(0xffff5151),),
-                              
+                            text: "4",
+                            onPressed: () {
+                              answerField.text += '4';
+                            },
+                            c: Color(0xffff5151),
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(2.0),
@@ -210,7 +210,7 @@ class _AdditionState extends State<Addition> {
                             onPressed: () {
                               answerField.text += '5';
                             },
-                            c:Color(0xffff5151),
+                            c: Color(0xffff5151),
                           ),
                         ),
                         Padding(
@@ -234,11 +234,12 @@ class _AdditionState extends State<Addition> {
                         Padding(
                           padding: const EdgeInsets.all(2),
                           child: NumButton(
-                              text: "7",
-                              onPressed: () {
-                                answerField.text += '7';
-                              },c: Color(0xffff5151),
-                              ),
+                            text: "7",
+                            onPressed: () {
+                              answerField.text += '7';
+                            },
+                            c: Color(0xffff5151),
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(2.0),
@@ -246,7 +247,8 @@ class _AdditionState extends State<Addition> {
                             text: "8",
                             onPressed: () {
                               answerField.text += '8';
-                            },c: Color(0xffff5151),
+                            },
+                            c: Color(0xffff5151),
                           ),
                         ),
                         Padding(
@@ -255,7 +257,8 @@ class _AdditionState extends State<Addition> {
                             text: "9",
                             onPressed: () {
                               answerField.text += '9';
-                            },c: Color(0xffff5151),
+                            },
+                            c: Color(0xffff5151),
                           ),
                         ),
                       ],
@@ -265,10 +268,12 @@ class _AdditionState extends State<Addition> {
                     left: 92,
                     top: 165,
                     child: NumButton(
-                        text: "0",
-                        onPressed: () {
-                          answerField.text += '0';
-                        },c: Color(0xffff5151),),
+                      text: "0",
+                      onPressed: () {
+                        answerField.text += '0';
+                      },
+                      c: Color(0xffff5151),
+                    ),
                   ),
                   Positioned(
                     left: 220,
@@ -325,20 +330,20 @@ class _AdditionState extends State<Addition> {
 
                             if (answerField.text.isNotEmpty) {
                               if (int.parse(answerField.text) == z) {
-                                x = n.generateNumber(20);
-                                y = n.generateNumber(20);
+                                x = n.generateNumber(10);
+                                y = n.generateNumber(10);
 
                                 z = x + y;
 
                                 answerField.clear();
                                 progress++;
                                 correctAnswers++;
-                                _sharedPreferencesManager.setCorrectAnswers(correctAnswers); // Save correct answers count
+                                _sharedPreferencesManager.setCorrectAnswers(
+                                    correctAnswers); // Save correct answers count
                                 showPage(context);
-                              } 
-                              else {
+                              } else {
                                 x = n.generateNumber(10);
-                                y = n.generateNumber(15);
+                                y = n.generateNumber(10);
 
                                 z = x + y;
 
@@ -347,18 +352,22 @@ class _AdditionState extends State<Addition> {
                                 showPage2(context);
                                 progress++;
                               }
-                            }else{
-                              showDialog(context: context, builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text("WOOOPPS"),
-                                  content: Text("Enter a number"),
-                                  actions: [
-                                    TextButton(onPressed: (){
-                                      Navigator.pop(context);
-                                    }, child: Text("Ok"))
-                                  ],
-                                );
-                              });
+                            } else {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text("WOOOPPS"),
+                                      content: Text("Enter a number"),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("Ok"))
+                                      ],
+                                    );
+                                  });
                             }
                             if (progress == 11) {
                               Future.delayed(
@@ -371,7 +380,9 @@ class _AdditionState extends State<Addition> {
 
                                 Future.delayed(
                                     Duration(seconds: 1, milliseconds: 3), () {
-                                  _sharedPreferencesManager.resetCorrectAnswers();
+                                  _sharedPreferencesManager
+                                      .resetCorrectAnswers();
+                                  correctAnswers = 0;
                                   progress = 1;
                                 });
                               });
